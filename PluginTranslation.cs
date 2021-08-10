@@ -117,7 +117,7 @@ namespace BetterUI
 
         public string KillStats = "Kills";
 
-        public string DeathStats = "Death";
+        public string DeathStats = "Deaths";
 
         public string KdRStats = "KD/r";
 
