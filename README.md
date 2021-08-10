@@ -14,6 +14,10 @@ Add some more options to the screen!
 * Kill Information
 * Round Leaderboard
 
+## Supported Languages 
+* English
+* German
+
 ## Installation
 1. [Install Synapse](https://github.com/SynapseSL/Synapse/wiki#hosting-guides)
 2. Place the SupplyDrops.dll file that you can download [here](https://github.com/TheVoidNebula/SupplyDrops/releases) in your plugin directory
