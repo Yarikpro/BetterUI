@@ -1,7 +1,16 @@
 # BetterUI
 Add some more options to the screen!
 
+Thanks to [Dimenzio](https://github.com/GrafDimenzio) for explaining me how to patch!
+
+The Respawn Timer is heavily inspired by the one being used on LunarGaming, big shoutout for their great Developers there!
+
 [![forthebadge](https://forthebadge.com/images/badges/built-with-swag.svg)](https://forthebadge.com)[![forthebadge](https://forthebadge.com/images/badges/it-works-why.svg)](https://forthebadge.com)[![forthebadge](https://forthebadge.com/images/badges/powered-by-black-magic.svg)](https://forthebadge.com)
+
+## What is this plugin?
+_**BetterUI**_ patched the normal Hint system in order to not just use hints to show different information to the player but also to show normal hints sent by other plugins like it should be. _**BetterUI**_ has three big parts into it. **I.** The Respawn Timer. **II.** The UI Elements while being Alive. **III.** The RoundEnd Leaderboard. You can fully decide what UI Elements you want enabled and what not.
+
+_**Patching the Hints System was chancer but it was worth it. I will never ever work with Hints again**_
 
 ## Features
 * Respawn Timer/Ticket Counter/Round Time
