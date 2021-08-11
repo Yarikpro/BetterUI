@@ -30,7 +30,9 @@ namespace BetterUI
 
         public override void Load()
         {
+            PatchMethods();
             PluginTranslation.AddTranslation(new PluginTranslation());
+
             PluginTranslation.AddTranslation(new PluginTranslation
             {
                 Respawn = "Du wirst respawnen in:",
@@ -55,17 +57,13 @@ namespace BetterUI
                 MobileTaskForce = "Mobile Task Force",
                 CI = "CI",
                 MTF = "MTF",
-                Scp035 = "SCP-035",
                 Scp049 = "SCP-049",
                 Scp0492 = "SCP-049-2",
-                Scp056 = "SCP-056",
                 Scp079 = "SCP-079",
                 Scp096 = "SCP-096",
                 Scp106 = "SCP-106",
                 Scp173 = "SCP-173",
-                 Scp682 = "SCP-682",
                 Scp939 = "SCP-939",
-                SerpentsHand = "Serpents Hand",
                 ClassD = "Klasse-D",
                 Scientists = "Wissenschaftler",
                 Commanders = "Kommandant",

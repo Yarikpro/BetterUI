@@ -55,13 +55,9 @@ namespace BetterUI
 
         public string MTF = "MTF";
 
-        public string Scp035 = "SCP-035";
-
         public string Scp049 = "SCP-049";
 
         public string Scp0492 = "SCP-049-2";
-
-        public string Scp056 = "SCP-056";
 
         public string Scp079 = "SCP-079";
 
@@ -71,11 +67,7 @@ namespace BetterUI
 
         public string Scp173 = "SCP-173";
 
-        public string Scp682 = "SCP-682";
-
         public string Scp939 = "SCP-939";
-
-        public string SerpentsHand = "Serpents Hand";
 
         public string ClassD = "Class-D";
 

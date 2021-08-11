@@ -41,10 +41,6 @@ namespace BetterUI
             { (int) RoleType.FacilityGuard, "<color=#57555>" + Plugin.PluginTranslation.ActiveTranslation.Guards + "</color>" },
             { (int) RoleType.Scp93953, "<color=red>" + Plugin.PluginTranslation.ActiveTranslation.Scp939 + "</color>" },
             { (int) RoleType.Scp93989, "<color=red>" + Plugin.PluginTranslation.ActiveTranslation.Scp939 + "</color>" },
-            { 30,  "<color=#33FF01>" + Plugin.PluginTranslation.ActiveTranslation.SerpentsHand + "</color>" },
-            { 682, "<color=red>" + Plugin.PluginTranslation.ActiveTranslation.Scp682 + "</color>" },
-            { 56,  "<color=red>" + Plugin.PluginTranslation.ActiveTranslation.Scp056 + "</color>" },
-            { 35,  "<color=red>" + Plugin.PluginTranslation.ActiveTranslation.Scp035 + "</color>" },
         };
 
         private readonly Dictionary<int, string> TeamToText = new Dictionary<int, string>()
@@ -67,6 +63,7 @@ namespace BetterUI
             Server.Get.Events.Player.PlayerEscapesEvent += OnEscape;
             Server.Get.Events.Player.PlayerDamageEvent += OnDamage;
             Server.Get.Events.Player.PlayerJoinEvent += OnJoin;
+            Server.Get.Events.Player.PlayerLeaveEvent += OnLeave;
         }
 
         public void OnRoundEnd()
@@ -112,9 +109,15 @@ namespace BetterUI
 
         public void OnJoin(Synapse.Api.Events.SynapseEventArguments.PlayerJoinEventArgs ev)
         {
-            Kills.Add(ev.Player.UserId, 0);
-            Deaths.Add(ev.Player.UserId, 0);
+            Timing.CallDelayed(1f, () => Kills.Add(ev.Player.UserId, 0)); Deaths.Add(ev.Player.UserId, 0);
         }
+
+        public void OnLeave(Synapse.Api.Events.SynapseEventArguments.PlayerLeaveEventArgs ev)
+        {
+            Kills.Remove(ev.Player.UserId);
+            Deaths.Remove(ev.Player.UserId);
+        }
+
 
         public void GiveTextHint(Player player, string message, float duration = 5f)
         {
@@ -233,14 +236,6 @@ namespace BetterUI
                                     UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp106}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp106)}x</color></pos></align>\n");
                                     UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp173}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp173)}x</color></pos></align>\n");
                                     UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp939}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp93953) + Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp93989)}x</color></pos></align>\n");
-                                    if (Server.Get.Players.Count(p => p.RoleID == 35) > 0)
-                                        UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp035}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == 35)}x</color></pos></align>\n");
-                                    if (Server.Get.Players.Count(p => p.RoleID == 56) > 0)
-                                        UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp056}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == 56)}x</color></pos></align>\n");
-                                    if (Server.Get.Players.Count(p => p.RoleID == 682) > 0)
-                                        UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp682}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == 682)}x</color></pos></align>\n");
-                                    if (Server.Get.Players.Count(p => p.RoleID == 30) > 0)
-                                        UI.Append($"<align=left><pos=-20%><color=#02FF38>{Plugin.PluginTranslation.ActiveTranslation.SerpentsHand}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == 30)}x</color></pos></align>\n");
                                     break;
                                 }
 
@@ -545,14 +540,14 @@ namespace BetterUI
                 yield return Timing.WaitForSeconds(1f);
             }
         }
-        
+
         public IEnumerator<float> SendUI()
         {
             while (true)
             {
                 foreach (Player players in Server.Get.Players)
                 {
-                    if(VoidAPI.NextTextHint[players] == null || VoidAPI.NextTextHint[players].Duration == 0)
+                    if (VoidAPI.NextTextHint[players] == null|| VoidAPI.NextTextHint[players].Duration == 0)
                     {
                         StringBuilder UIElements = new StringBuilder();
                         BuildUI(UIElements, players);
@@ -567,11 +562,11 @@ namespace BetterUI
                         if (VoidAPI.NextTextHint[players].Duration == 0)
                             VoidAPI.NextTextHint.Remove(players);
                         VoidAPI.NextTextHint[players].Duration--;
+
                     }
                 }
-
                 yield return Timing.WaitForSeconds(1f);
             }
-        }  
+        }
     }
 }
