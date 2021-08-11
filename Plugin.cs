@@ -18,7 +18,7 @@ namespace BetterUI
         SynapseMajor = 2,
         SynapseMinor = 6,
         SynapsePatch = 0,
-        Version = "1.0"
+        Version = "1.1"
         )]
     public class Plugin : AbstractPlugin
     {
