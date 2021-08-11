@@ -414,10 +414,10 @@ namespace BetterUI
                             if (items.ID == (int)ItemType.SCP018)
                                 scp018++;
                         }
-                        UI.Append($"\n<align=left><pos=-20%> {Plugin.PluginTranslation.ActiveTranslation.Grenades}:</align></pos>\n");
-                        UI.Append($"<align=left><pos=-20%> <color=#FF6E01>{Plugin.PluginTranslation.ActiveTranslation.Frag}: </color><color=yellow>{frags}</color></align></pos>\n");
-                        UI.Append($"<align=left><pos=-20%> <color=#FF6E01>{Plugin.PluginTranslation.ActiveTranslation.Flash}: </color><color=yellow>{flashes}</color></align></pos>\n");
-                        UI.Append($"<align=left><pos=-20%> <color=#FF6E01>{Plugin.PluginTranslation.ActiveTranslation.Scp018}: </color><color=yellow>{scp018}</color></align></pos>\n");
+                        UI.Append($"\n<align=left><pos=-20%>{Plugin.PluginTranslation.ActiveTranslation.Grenades}:</align></pos>\n");
+                        UI.Append($"<align=left><pos=-20%><color=#FF6E01>{Plugin.PluginTranslation.ActiveTranslation.Frag}: </color><color=yellow>{frags}</color></align></pos>\n");
+                        UI.Append($"<align=left><pos=-20%><color=#FF6E01>{Plugin.PluginTranslation.ActiveTranslation.Flash}: </color><color=yellow>{flashes}</color></align></pos>\n");
+                        UI.Append($"<align=left><pos=-20%><color=#FF6E01>{Plugin.PluginTranslation.ActiveTranslation.Scp018}: </color><color=yellow>{scp018}</color></align></pos>\n");
                     }
                 }
             }
@@ -432,7 +432,7 @@ namespace BetterUI
                         UI.Append($"<align=left><pos=-20%>{Plugin.PluginTranslation.ActiveTranslation.FirstDeath.Replace("%player%", FirstDeath)}</align></pos>\n\n");
                     }
 
-                    UI.Append($"<align=left><pos=-20%> Fastest Escapes:</align></pos>\n");
+                    UI.Append($"<align=left><pos=-20%>{Plugin.PluginTranslation.ActiveTranslation.FastestEscapeTitel}:</align></pos>\n");
                     List<TimeSpan> EscapeList = Escapes.Values.ToList();
                     EscapeList.Sort();
                     if (EscapeList.IsEmpty())
