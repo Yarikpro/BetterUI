@@ -27,6 +27,7 @@ namespace BetterUI
 
         [SynapseTranslation]
         public static SynapseTranslation<PluginTranslation> PluginTranslation;
+
         public override void Load()
         {
             PluginTranslation.AddTranslation(new PluginTranslation());
@@ -36,6 +37,7 @@ namespace BetterUI
                 Respawning = "Du respawnst als:",
                 Kill = "Abschuss:",
                 Killed = "Du wurdest getötet von:",
+                PressEscToExit = "\n<color=blue>Drücke Esc um dieses Fenster zu schließen</color>",
                 MostKillsNone = "<size=30><i>Niemand hat Kills!</i></size>",
                 ScpsRecontained = "<size=30><i>[<color=#00FFE4>%position%</color>] <color=yellow><b>%player%</b></color> hat <color=#26FF02><b>%SCPS%</b></color> SCP(s) recontained!</i></size>",
                 ScpsRecontainedTitel = "<size=30><i>SCPs Recontained:</i></size>",
@@ -97,12 +99,6 @@ namespace BetterUI
             //Feel free to ask me or create a PR in order to add more languages
             new EventHandlers();
         }
-
-        public override void ReloadConfigs()
-        {
-
-        }
-
         private void PatchMethods()
         {
             try

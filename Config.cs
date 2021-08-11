@@ -10,9 +10,6 @@ namespace BetterUI
 {
     public class Config : AbstractConfigSection
     {
-        [Description("Should this plugin be enabled?")]
-        public bool IsEnabled { get; set; } = true;
-
         [Description("Should the amount of alive players in your team be displayed?")]
         public bool EnableTeamCountElement { get; set; } = true;
 

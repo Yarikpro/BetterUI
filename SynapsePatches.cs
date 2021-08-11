@@ -20,7 +20,7 @@ namespace BetterUI
         }
     }
 
-    public class VoidAPI
+    public static class VoidAPI
     {
         public static void GiveTextHint(Player player, string message, float duration)
         {
@@ -37,8 +37,6 @@ namespace BetterUI
 
     public class TextHint
     {
-
-
         public string Message { get; set; }
         public float Duration { get; set; }
         public float FullDuration { get; set; }

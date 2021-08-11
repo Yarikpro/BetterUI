@@ -21,7 +21,7 @@ namespace BetterUI
         private string FirstKill = "empty";
         private string FirstDeath = "empty";
 
-        private Dictionary<int, string> RoleToText = new Dictionary<int, string>()
+        private readonly Dictionary<int, string> RoleToText = new Dictionary<int, string>()
         {
             { (int) RoleType.Scp173, "<color=red>" + Plugin.PluginTranslation.ActiveTranslation.Scp173 + "</color>" },
             { (int) RoleType.ClassD, "<color=#FF9302>" + Plugin.PluginTranslation.ActiveTranslation.ClassD + "</color>" },
@@ -47,7 +47,7 @@ namespace BetterUI
             { 35,  "<color=red>" + Plugin.PluginTranslation.ActiveTranslation.Scp035 + "</color>" },
         };
 
-        private Dictionary<int, string> TeamToText = new Dictionary<int, string>()
+        private readonly Dictionary<int, string> TeamToText = new Dictionary<int, string>()
         {
             { (int) Team.SCP, "<color=red>" + Plugin.PluginTranslation.ActiveTranslation.SCP + "</color>" },
             { (int) Team.MTF, "<color=blue>" + Plugin.PluginTranslation.ActiveTranslation.MobileTaskForce + "</color>" },
@@ -163,8 +163,19 @@ namespace BetterUI
 
             if (Plugin.Config.EnableKillElement && ev.Killer != ev.Victim)
             {
-                ev.Killer.SendBroadcast(5, Plugin.PluginTranslation.ActiveTranslation.Kill + $" <color=yellow>{ev.Victim.DisplayName}</color>\n{Plugin.PluginTranslation.ActiveTranslation.Role}: {RoleToText[ev.Victim.RoleID]}\n{Plugin.PluginTranslation.ActiveTranslation.Team}: {TeamToText[ev.Victim.TeamID]}", true);
-                ev.Victim.OpenReportWindow(Plugin.PluginTranslation.ActiveTranslation.Killed + $" <color=yellow>{ev.Killer.DisplayName}</color>\n{Plugin.PluginTranslation.ActiveTranslation.Role}: {RoleToText[ev.Killer.RoleID]}\n{Plugin.PluginTranslation.ActiveTranslation.Team}: {TeamToText[ev.Killer.TeamID]}");
+                if(RoleToText[ev.Victim.RoleID] != null && TeamToText[ev.Victim.TeamID] != null)
+                    ev.Killer.SendBroadcast(5, Plugin.PluginTranslation.ActiveTranslation.Kill + $" <color=yellow>{ev.Victim.DisplayName}</color>\n{Plugin.PluginTranslation.ActiveTranslation.Role}: {RoleToText[ev.Victim.RoleID]}\n{Plugin.PluginTranslation.ActiveTranslation.Team}: {TeamToText[ev.Victim.TeamID]}", true);
+                else if(RoleToText[ev.Victim.RoleID] == null && TeamToText[ev.Victim.TeamID] != null)
+                    ev.Killer.SendBroadcast(5, Plugin.PluginTranslation.ActiveTranslation.Kill + $" <color=yellow>{ev.Victim.DisplayName}</color>\n{Plugin.PluginTranslation.ActiveTranslation.Role}: {ev.Victim.RoleName}\n{Plugin.PluginTranslation.ActiveTranslation.Team}: {TeamToText[ev.Victim.TeamID]}", true);
+                else if (RoleToText[ev.Victim.RoleID] == null && TeamToText[ev.Victim.TeamID] == null)
+                    ev.Killer.SendBroadcast(5, Plugin.PluginTranslation.ActiveTranslation.Kill + $" <color=yellow>{ev.Victim.DisplayName}</color>\n{Plugin.PluginTranslation.ActiveTranslation.Role}: {ev.Victim.RoleName}\n{Plugin.PluginTranslation.ActiveTranslation.Team}: {ev.Victim.Team}", true);
+
+                if (RoleToText[ev.Killer.RoleID] != null && TeamToText[ev.Killer.TeamID] != null)
+                    ev.Victim.OpenReportWindow(Plugin.PluginTranslation.ActiveTranslation.Killed + $" <color=yellow>{ev.Killer.DisplayName}</color>\n{Plugin.PluginTranslation.ActiveTranslation.Role}: {RoleToText[ev.Killer.RoleID]}\n{Plugin.PluginTranslation.ActiveTranslation.Team}: {TeamToText[ev.Killer.TeamID]}");
+                else if (RoleToText[ev.Killer.RoleID] == null && TeamToText[ev.Killer.TeamID] != null)
+                    ev.Victim.OpenReportWindow(Plugin.PluginTranslation.ActiveTranslation.Killed + $" <color=yellow>{ev.Killer.DisplayName}</color>\n{Plugin.PluginTranslation.ActiveTranslation.Role}: {ev.Killer.RoleName}\n{Plugin.PluginTranslation.ActiveTranslation.Team}: {TeamToText[ev.Killer.TeamID]}");
+                else if (RoleToText[ev.Killer.RoleID] == null && TeamToText[ev.Killer.TeamID] == null)
+                    ev.Victim.OpenReportWindow(Plugin.PluginTranslation.ActiveTranslation.Killed + $" <color=yellow>{ev.Killer.DisplayName}</color>\n{Plugin.PluginTranslation.ActiveTranslation.Role}: {ev.Killer.RoleName}\n{Plugin.PluginTranslation.ActiveTranslation.Team}: {ev.Killer.Team}");
             }
         }
 
@@ -208,14 +219,8 @@ namespace BetterUI
                                     UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp106}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp106)}x</color></pos></align>\n");
                                     UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp173}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp173)}x</color></pos></align>\n");
                                     UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp939}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp93953) + Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp93989)}x</color></pos></align>\n");
-                                    if (Server.Get.Players.Count(p => p.RoleID == 35) > 0)
-                                        UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp035}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == 35)}x</color></pos></align>\n");
-                                    if (Server.Get.Players.Count(p => p.RoleID == 56) > 0)
-                                        UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp056}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == 56)}x</color></pos></align>\n");
-                                    if (Server.Get.Players.Count(p => p.RoleID == 682) > 0)
-                                        UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp682}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == 682)}x</color></pos></align>\n");
-                                    if (Server.Get.Players.Count(p => p.RoleID == 30) > 0)
-                                        UI.Append($"<align=left><pos=-20%><color=#02FF38>{Plugin.PluginTranslation.ActiveTranslation.SerpentsHand}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == 30)}x</color></pos></align>\n");
+                                    if (players.RealTeam == Team.SCP && players.CustomRole != null)
+                                        UI.Append($"<align=left><pos=-20%><color=red>{players.RoleName}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == players.RoleID)}x</color></pos></align>\n");
                                     break;
                                 }
                                 else
@@ -547,7 +552,7 @@ namespace BetterUI
             {
                 foreach (Player players in Server.Get.Players)
                 {
-                    if(VoidAPI.NextTextHint[players].Duration == 0 || VoidAPI.NextTextHint[players] == null)
+                    if(VoidAPI.NextTextHint[players] == null || VoidAPI.NextTextHint[players].Duration == 0)
                     {
                         StringBuilder UIElements = new StringBuilder();
                         BuildUI(UIElements, players);

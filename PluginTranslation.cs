@@ -17,6 +17,8 @@ namespace BetterUI
 
         public string Killed = "You have been killed by:";
 
+        public string PressEscToExit = "\n<color=blue>Press Esc to close this window</color>";
+
         public string MostKills = "<size=30><i>[<color=#00FFE4>%position%</color>] <color=yellow><b>%player%</b></color> has <color=red><b>%kills%</b></color> Kills!</i></size>";
 
         public string MostKillsNone = "<size=30><i>Nobody has any kills!</i></size>";
