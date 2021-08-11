@@ -46,7 +46,6 @@ You have to either dm me on Discord, then I can explain it to you or you just cr
 ## Config
 Name  | Type | Default | Description
 ------------ | ------------ | ------------- | ------------ 
-`IsEnabled` | Boolean | true | Is this plugin enabled?
 `MinPlayersForSupply` | Int | 4 | Minimum players for supply drops to happen
 `EnableTeamCountElement` | Boolean | true | Should the amount of alive players in your team be displayed?
 `EnableTotalAmmoElement` | Boolean | true | Should the amount of all of your ammo should be displayed?
@@ -63,8 +62,6 @@ Name  | Type | Default | Description
 ```yml
 [BetterUI]
 {
-# Should this plugin be enabled?
-isEnabled: true
 # Should the amount of alive players in your team be displayed?
 enableTeamCountElement: true
 # Should the amount of all of your ammo should be displayed?
