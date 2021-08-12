@@ -202,31 +202,56 @@ namespace BetterUI
         {
             if (!Round.Get.RoundEnded)
             {
-                if (players.RoleID != 35 || players.RoleID != 56)
-                {
                     if (Plugin.Config.EnableTeamCountElement)
                     {
                         switch (players.TeamID)
                         {
                             case 0:
+                                Dictionary<int, string> tempRoles = new Dictionary<int, string>();
                                 if (Plugin.Config.EnableStatsElements)
                                 {
-                                    UI.Append($"<align=left><pos=-20%>{Plugin.PluginTranslation.ActiveTranslation.Team}:</pos><pos=78%>{Plugin.PluginTranslation.ActiveTranslation.Stats}:</pos>\n");
-                                    UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp049}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp049)}x</color></pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KillStats}:</color> <color=yellow>{Kills[players.UserId]}</color></pos></align>\n");
-                                    UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp0492}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp0492)}x</color></pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.DeathStats}:</color></pos> <color=yellow>{Deaths[players.UserId]}</color></pos></align>\n");
-                                    if (Kills[players.UserId] != 0 && Deaths[players.UserId] != 0)
-                                        UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp079}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp079)}x</color></pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KdRStats}:</color></pos> <color=yellow>{Kills[players.UserId] / Deaths[players.UserId]}</color></pos></align>\n");
-                                    else
-                                        UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp079}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp079)}x</color></pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KdRStats}:</color></pos> <color=yellow>0</color></pos></align>\n");
-                                    UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp096}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp096)}x</color></pos></align>\n");
-                                    UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp106}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp106)}x</color></pos></align>\n");
-                                    UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp173}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp173)}x</color></pos></align>\n");
-                                    UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp939}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp93953) + Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp93989)}x</color></pos></align>\n");
-                                    if (players.RealTeam == Team.SCP && players.CustomRole != null)
-                                        UI.Append($"<align=left><pos=-20%><color=red>{players.RoleName}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == players.RoleID)}x</color></pos></align>\n");
-                                    break;
-                                }
-                                else
+                                    if (HasInventory(players))
+                                    {
+                                        UI.Append($"<align=left><pos=-20%>{Plugin.PluginTranslation.ActiveTranslation.Team}:</pos><pos=78%>{Plugin.PluginTranslation.ActiveTranslation.Stats}:</pos>\n");
+                                        UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp049}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp049)}x</color></pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KillStats}:</color> <color=yellow>{Kills[players.UserId]}</color></pos></align>\n");
+                                        UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp0492}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp0492)}x</color></pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.DeathStats}:</color></pos> <color=yellow>{Deaths[players.UserId]}</color></pos></align>\n");
+                                        if (Kills[players.UserId] != 0 && Deaths[players.UserId] != 0)
+                                            UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp079}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp079)}x</color></pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KdRStats}:</color></pos> <color=yellow>{Kills[players.UserId] / Deaths[players.UserId]}</color></pos></align>\n");
+                                        else
+                                            UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp079}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp079)}x</color></pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KdRStats}:</color></pos> <color=yellow>0</color></pos></align>\n");
+                                        UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp096}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp096)}x</color></pos></align>\n");
+                                        UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp106}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp106)}x</color></pos></align>\n");
+                                        UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp173}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp173)}x</color></pos></align>\n");
+                                        UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp939}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp93953) + Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp93989)}x</color></pos></align>\n");
+                                        foreach (Player x in Server.Get.Players.Where(p => p.CustomRole != null && p.RealTeam == Team.SCP))
+                                            tempRoles.Add(x.RoleID, x.RoleName);
+                                        foreach (var element in tempRoles)
+                                            UI.Append($"<align=left><pos=-20%><color=red>{element.Value}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == element.Key)}x</color></pos></align>\n");
+                                        tempRoles.Clear();
+                                        UI.Append($"<align=left><pos=-20%>{Plugin.PluginTranslation.ActiveTranslation.Targets}: <color=yellow>{Server.Get.GetPlayers(x => x.RealTeam == Team.MTF || x.RealTeam == Team.CDP || x.RealTeam == Team.RSC).Count}</color></pos></align>\n");
+                                        break;
+                                    }
+                                    else if(!Plugin.Config.EnableTargetCounter || !HasInventory(players))
+                                    {
+                                        UI.Append($"<align=left><pos=-20%>{Plugin.PluginTranslation.ActiveTranslation.Team}:</pos><pos=78%>{Plugin.PluginTranslation.ActiveTranslation.Stats}:</pos>\n");
+                                        UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp049}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp049)}x</color></pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KillStats}:</color> <color=yellow>{Kills[players.UserId]}</color></pos></align>\n");
+                                        UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp0492}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp0492)}x</color></pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.DeathStats}:</color></pos> <color=yellow>{Deaths[players.UserId]}</color></pos></align>\n");
+                                        if (Kills[players.UserId] != 0 && Deaths[players.UserId] != 0)
+                                            UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp079}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp079)}x</color></pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KdRStats}:</color></pos> <color=yellow>{Kills[players.UserId] / Deaths[players.UserId]}</color></pos></align>\n");
+                                        else
+                                            UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp079}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp079)}x</color></pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KdRStats}:</color></pos> <color=yellow>0</color></pos></align>\n");
+                                        UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp096}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp096)}x</color></pos></align>\n");
+                                        UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp106}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp106)}x</color></pos></align>\n");
+                                        UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp173}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp173)}x</color></pos></align>\n");
+                                        UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp939}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp93953) + Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp93989)}x</color></pos></align>\n");
+                                        foreach (Player x in Server.Get.Players.Where(p => p.CustomRole != null && p.RealTeam == Team.SCP))
+                                            tempRoles.Add(x.RoleID, x.RoleName);
+                                        foreach (var element in tempRoles)
+                                            UI.Append($"<align=left><pos=-20%><color=red>{element.Value}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == element.Key)}x</color></pos></align>\n");
+                                        tempRoles.Clear();
+                                        break;
+                                    }
+                                } else
                                 {
                                     UI.Append($"<align=left><pos=-20%>{Plugin.PluginTranslation.ActiveTranslation.Team}:</pos></align>\n");
                                     UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp049}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp049)}x</color></pos></align>\n");
@@ -236,9 +261,14 @@ namespace BetterUI
                                     UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp106}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp106)}x</color></pos></align>\n");
                                     UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp173}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp173)}x</color></pos></align>\n");
                                     UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.Scp939}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp93953) + Server.Get.Players.Count(p => p.RoleID == (int)RoleType.Scp93989)}x</color></pos></align>\n");
+                                    foreach (Player x in Server.Get.Players.Where(p => p.CustomRole != null && p.RealTeam == Team.SCP))
+                                        tempRoles.Add(x.RoleID, x.RoleName);
+                                    foreach(var element in tempRoles)
+                                            UI.Append($"<align=left><pos=-20%><color=red>{element.Value}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == element.Key)}x</color></pos></align>\n");
+                                    tempRoles.Clear();
                                     break;
                                 }
-
+                            break;
                             case 1:
                                 if (Plugin.Config.EnableStatsElements)
                                 {
@@ -249,7 +279,7 @@ namespace BetterUI
                                         UI.Append($"<align=left><pos=-20%><color=#1782FF>{Plugin.PluginTranslation.ActiveTranslation.Cadets}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.NtfCadet)}x</color></pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KdRStats}:</color></pos> <color=yellow>{Kills[players.UserId] / Deaths[players.UserId]}</color></pos></align>\n");
                                     else
                                         UI.Append($"<align=left><pos=-20%><color=#1782FF>{Plugin.PluginTranslation.ActiveTranslation.Cadets}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.NtfCadet)}x</color></pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KdRStats}:</color></pos> <color=yellow>0</color></pos></align>\n");
-                                    UI.Append($"<align=left><pos=-20%><color=#575550>{Plugin.PluginTranslation.ActiveTranslation.Guards}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.FacilityGuard)}x</color></pos></align>\n");
+                                UI.Append($"<align=left><pos=-20%><color=#575550>{Plugin.PluginTranslation.ActiveTranslation.Guards}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.FacilityGuard)}x</color></pos></align>\n");
                                     break;
                                 }
                                 else
@@ -319,7 +349,7 @@ namespace BetterUI
                     }
                     else
                     {
-                        if (Plugin.Config.EnableStatsElements && Plugin.Config.EnableTargetCounter)
+                        if (Plugin.Config.EnableStatsElements && Plugin.Config.EnableTargetCounter && players.RealTeam == Team.SCP)
                         {
                             UI.Append($"<align=left><pos=-20%>{Plugin.PluginTranslation.ActiveTranslation.Stats}:</pos><pos=78%>{Plugin.PluginTranslation.ActiveTranslation.Targets}: <color=yellow>{Server.Get.GetPlayers(x => x.RealTeam == Team.MTF || x.RealTeam == Team.CDP || x.RealTeam == Team.RSC).Count}</color></pos></align>\n");
                             UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KillStats}:</color> <color=yellow>{Kills[players.UserId]}</color></pos></align>\n");
@@ -329,25 +359,9 @@ namespace BetterUI
                             else
                                 UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KdRStats}:</color></pos> <color=yellow>0</color></pos></align>\n");
                         }
-                        else if(!Plugin.Config.EnableStatsElements && Plugin.Config.EnableTargetCounter)
+                        else if(!Plugin.Config.EnableStatsElements && Plugin.Config.EnableTargetCounter && players.RealTeam == Team.SCP)
                             UI.Append($"<align=left><pos=-20%>{Plugin.PluginTranslation.ActiveTranslation.Targets}: <color=yellow>{Server.Get.GetPlayers(x => x.RealTeam == Team.MTF || x.RealTeam == Team.CDP || x.RealTeam == Team.RSC).Count}</color></pos></align>\n");
                     }
-                }
-                else
-                {
-                    if (Plugin.Config.EnableStatsElements)
-                    {
-                        UI.Append($"<align=left><pos=-20%>{Plugin.PluginTranslation.ActiveTranslation.Stats}:</pos><pos=78%>{Plugin.PluginTranslation.ActiveTranslation.Targets}: <color=yellow>{Server.Get.GetPlayers(x => x.RealTeam == Team.MTF || x.RealTeam == Team.CDP || x.RealTeam == Team.RSC).Count}</color></pos></align>\n");
-                        UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KillStats}:</color> <color=yellow>{Kills[players.UserId]}</color></pos></align>\n");
-                        UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.DeathStats}:</color></pos> <color=yellow>{Deaths[players.UserId]}</color></pos></align>\n");
-                        if (Kills[players.UserId] != 0 && Deaths[players.UserId] != 0)
-                            UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KdRStats}:</color></pos> <color=yellow>{Kills[players.UserId] / Deaths[players.UserId]}</color></pos></align>\n");
-                        else
-                            UI.Append($"<align=left><pos=-20%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KdRStats}:</color></pos> <color=yellow>0</color></pos></align>\n");
-                    }
-                    else
-                        UI.Append($"<align=left><pos=-20%>{Plugin.PluginTranslation.ActiveTranslation.Targets}: <color=yellow>{Team.CDP.GetPlayers().Count + Team.RSC.GetPlayers().Count + Team.MTF.GetPlayers().Count}</color></pos></align>\n");
-                }
 
                 if (!Plugin.Config.EnableTeamCountElement && Plugin.Config.EnableStatsElements && !Plugin.Config.EnableTargetCounter)
                 {
