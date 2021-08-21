@@ -71,15 +71,23 @@ namespace BetterUI
 
         public string ClassD = "Class-D";
 
+        public string ChaosConscript = "Conscripts";
+
+        public string ChaosMarauder = "Marauders";
+
+        public string ChaosRepressor = "Repressors";
+
+        public string ChaosRifleman = "Riflemen";
+
         public string Scientists = "Scientist";
 
-        public string Commanders = "Commander";
+        public string Captains = "Captains";
 
-        public string Lieutenants = "Lieutenant";
+        public string Sergeants = "Sergeants";
 
-        public string MtfScientist = "NTF-Scientist";
+        public string Specialists = "Specialists";
 
-        public string Cadets = "Cadet";
+        public string Privats = "Privats";
 
         public string Guards = "Guard";
 
@@ -106,6 +114,16 @@ namespace BetterUI
         public string TUT = "Tutorial Gang";
 
         public string Ammo = "Ammo";
+
+        public string AmmoGauge = "12-Gauge";
+
+        public string AmmoCal44 = "Cal-44";
+
+        public string Ammo556 = "556x45";
+
+        public string Ammo762 = "762x39";
+
+        public string Ammo919 = "9x19";
 
         public string Stats = "Stats";
 

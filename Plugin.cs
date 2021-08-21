@@ -16,9 +16,9 @@ namespace BetterUI
         LoadPriority = 0,
         Name = "BetterUI",
         SynapseMajor = 2,
-        SynapseMinor = 6,
+        SynapseMinor = 7,
         SynapsePatch = 0,
-        Version = "1.1"
+        Version = "2.0"
         )]
     public class Plugin : AbstractPlugin
     {
@@ -65,11 +65,15 @@ namespace BetterUI
                 Scp173 = "SCP-173",
                 Scp939 = "SCP-939",
                 ClassD = "Klasse-D",
+                ChaosConscript = "Rekrut",
+                ChaosRifleman = "Schütze",
+                ChaosMarauder = "Plünderer",
+                ChaosRepressor = "Repressor",
                 Scientists = "Wissenschaftler",
-                Commanders = "Kommandant",
-                Lieutenants = "Leutnant",
-                MtfScientist = "NTF-Wissenschaftler",
-                Cadets = "Kadett",
+                Captains = "Kapitän",
+                Sergeants = "Sergeant",
+                Specialists = "Spezialist",
+                Privats = "Privat",
                 Guards = "Wachpersonal",
                 Tutorial = "Tutorial",
                 RoundTime = "Rundenzeit",
@@ -83,6 +87,11 @@ namespace BetterUI
                 CDP = "Klasse-D Personal",
                 TUT = "Tutorial Gang",
                 Ammo = "Munition",
+                AmmoGauge = "12-Gauge",
+                AmmoCal44 = "Cal-44",
+                Ammo556 = "556x45",
+                Ammo762 = "762x39",
+                Ammo919 = "9x19",
                 Stats = "Statistiken",
                 KillStats = "Kills",
                 DeathStats = "Tode",

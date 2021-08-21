@@ -27,16 +27,19 @@ namespace BetterUI
             { (int) RoleType.ClassD, "<color=#FF9302>" + Plugin.PluginTranslation.ActiveTranslation.ClassD + "</color>" },
             { (int) RoleType.Scp106, "<color=red>" + Plugin.PluginTranslation.ActiveTranslation.Scp106 + "</color>" },
             { (int) RoleType.Spectator, "<color=#666666>" + Plugin.PluginTranslation.ActiveTranslation.Spectators + "</color>" },
-            { (int) RoleType.NtfScientist, "<color=#1782FF>" + Plugin.PluginTranslation.ActiveTranslation.MtfScientist + "</color>" },
+            { (int) RoleType.NtfSpecialist, "<color=#1782FF>" + Plugin.PluginTranslation.ActiveTranslation.Specialists + "</color>" },
             { (int) RoleType.Scp049, "<color=red>" + Plugin.PluginTranslation.ActiveTranslation.Scp049 + "</color>" },
             { (int) RoleType.Scientist, "<color=yellow>" + Plugin.PluginTranslation.ActiveTranslation.Scientists + "</color>" },
             { (int) RoleType.Scp079, "<color=red>" + Plugin.PluginTranslation.ActiveTranslation.Scp079 + "</color>" },
-            { (int) RoleType.ChaosInsurgency, "<color=green>" + Plugin.PluginTranslation.ActiveTranslation.CI + "</color>" },
+            { (int) RoleType.ChaosConscript, "<color=green>" + Plugin.PluginTranslation.ActiveTranslation.ChaosConscript + "</color>" },
+            { (int) RoleType.ChaosMarauder, "<color=green>" + Plugin.PluginTranslation.ActiveTranslation.ChaosMarauder + "</color>" },
+            { (int) RoleType.ChaosRepressor, "<color=green>" + Plugin.PluginTranslation.ActiveTranslation.ChaosRepressor + "</color>" },
+            { (int) RoleType.ChaosRifleman, "<color=green>" + Plugin.PluginTranslation.ActiveTranslation.ChaosRifleman + "</color>" },
             { (int) RoleType.Scp096, "<color=red>" + Plugin.PluginTranslation.ActiveTranslation.Scp096 + "</color>" },
             { (int) RoleType.Scp0492, "<color=red>" + Plugin.PluginTranslation.ActiveTranslation.Scp0492 + "</color>" },
-            { (int) RoleType.NtfLieutenant, "<color=#1782FF>" + Plugin.PluginTranslation.ActiveTranslation.Lieutenants + "</color>" },
-            { (int) RoleType.NtfCommander, "<color=#0009FF>" + Plugin.PluginTranslation.ActiveTranslation.Commanders + "</color>" },
-            { (int) RoleType.NtfCadet, "<color=#1782FF>" + Plugin.PluginTranslation.ActiveTranslation.Cadets + "</color>" },
+            { (int) RoleType.NtfSergeant, "<color=#1782FF>" + Plugin.PluginTranslation.ActiveTranslation.Sergeants + "</color>" },
+            { (int) RoleType.NtfCaptain, "<color=#0009FF>" + Plugin.PluginTranslation.ActiveTranslation.Captains + "</color>" },
+            { (int) RoleType.NtfPrivate, "<color=#1782FF>" + Plugin.PluginTranslation.ActiveTranslation.Privats + "</color>" },
             { (int) RoleType.Tutorial, "<color=#00FF05>" + Plugin.PluginTranslation.ActiveTranslation.Tutorial + "</color>" },
             { (int) RoleType.FacilityGuard, "<color=#57555>" + Plugin.PluginTranslation.ActiveTranslation.Guards + "</color>" },
             { (int) RoleType.Scp93953, "<color=red>" + Plugin.PluginTranslation.ActiveTranslation.Scp939 + "</color>" },
@@ -114,8 +117,11 @@ namespace BetterUI
 
         public void OnLeave(Synapse.Api.Events.SynapseEventArguments.PlayerLeaveEventArgs ev)
         {
+            if(Kills.ContainsKey(ev.Player.UserId))
             Kills.Remove(ev.Player.UserId);
-            Deaths.Remove(ev.Player.UserId);
+
+            if (Deaths.ContainsKey(ev.Player.UserId))
+                Deaths.Remove(ev.Player.UserId);
         }
 
 
@@ -273,21 +279,21 @@ namespace BetterUI
                                 if (Plugin.Config.EnableStatsElements)
                                 {
                                     UI.Append($"<align=left><pos=-20%>{Plugin.PluginTranslation.ActiveTranslation.Team}:</pos><pos=78%>{Plugin.PluginTranslation.ActiveTranslation.Stats}:</pos></align>\n");
-                                    UI.Append($"<align=left><pos=-20%><color=#0009FF>{Plugin.PluginTranslation.ActiveTranslation.Commanders}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.NtfCommander)}x</color></pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KillStats}:</color> <color=yellow>{Kills[players.UserId]}</color></pos></align>\n");
-                                    UI.Append($"<align=left><pos=-20%><color=#1782FF>{Plugin.PluginTranslation.ActiveTranslation.Lieutenants}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.NtfLieutenant) + Server.Get.Players.Count(p => p.RoleID == (int)RoleType.NtfScientist)}x</color></pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.DeathStats}:</color></pos> <color=yellow>{Deaths[players.UserId]}</color></pos></align>\n");
+                                    UI.Append($"<align=left><pos=-20%><color=#0009FF>{Plugin.PluginTranslation.ActiveTranslation.Captains}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.NtfCaptain)}x</color></pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KillStats}:</color> <color=yellow>{Kills[players.UserId]}</color></pos></align>\n");
+                                    UI.Append($"<align=left><pos=-20%><color=#1782FF>{Plugin.PluginTranslation.ActiveTranslation.Sergeants}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.NtfSergeant) + Server.Get.Players.Count(p => p.RoleID == (int)RoleType.NtfSpecialist)}x</color></pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.DeathStats}:</color></pos> <color=yellow>{Deaths[players.UserId]}</color></pos></align>\n");
                                     if (Kills[players.UserId] != 0 && Deaths[players.UserId] != 0)
-                                        UI.Append($"<align=left><pos=-20%><color=#1782FF>{Plugin.PluginTranslation.ActiveTranslation.Cadets}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.NtfCadet)}x</color></pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KdRStats}:</color></pos> <color=yellow>{Kills[players.UserId] / Deaths[players.UserId]}</color></pos></align>\n");
+                                        UI.Append($"<align=left><pos=-20%><color=#1782FF>{Plugin.PluginTranslation.ActiveTranslation.Privats}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.NtfPrivate)}x</color></pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KdRStats}:</color></pos> <color=yellow>{Kills[players.UserId] / Deaths[players.UserId]}</color></pos></align>\n");
                                     else
-                                        UI.Append($"<align=left><pos=-20%><color=#1782FF>{Plugin.PluginTranslation.ActiveTranslation.Cadets}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.NtfCadet)}x</color></pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KdRStats}:</color></pos> <color=yellow>0</color></pos></align>\n");
+                                        UI.Append($"<align=left><pos=-20%><color=#1782FF>{Plugin.PluginTranslation.ActiveTranslation.Privats}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.NtfPrivate)}x</color></pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KdRStats}:</color></pos> <color=yellow>0</color></pos></align>\n");
                                 UI.Append($"<align=left><pos=-20%><color=#575550>{Plugin.PluginTranslation.ActiveTranslation.Guards}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.FacilityGuard)}x</color></pos></align>\n");
                                     break;
                                 }
                                 else
                                 {
                                     UI.Append($"<align=left><pos=-20%>{Plugin.PluginTranslation.ActiveTranslation.Team}:</align>\n");
-                                    UI.Append($"<align=left><pos=-20%><color=#0009FF>{Plugin.PluginTranslation.ActiveTranslation.Commanders}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.NtfCommander)}x</color></pos></align>\n");
-                                    UI.Append($"<align=left><pos=-20%><color=#1782FF>{Plugin.PluginTranslation.ActiveTranslation.Lieutenants}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.NtfLieutenant) + Server.Get.Players.Count(p => p.RoleID == (int)RoleType.NtfScientist)}x</color></pos></align>\n");
-                                    UI.Append($"<align=left><pos=-20%><color=#1782FF>{Plugin.PluginTranslation.ActiveTranslation.Cadets}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.NtfCadet)}x</color></pos></align>\n");
+                                    UI.Append($"<align=left><pos=-20%><color=#0009FF>{Plugin.PluginTranslation.ActiveTranslation.Captains}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.NtfCaptain)}x</color></pos></align>\n");
+                                    UI.Append($"<align=left><pos=-20%><color=#1782FF>{Plugin.PluginTranslation.ActiveTranslation.Sergeants}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.NtfSergeant) + Server.Get.Players.Count(p => p.RoleID == (int)RoleType.NtfSpecialist)}x</color></pos></align>\n");
+                                    UI.Append($"<align=left><pos=-20%><color=#1782FF>{Plugin.PluginTranslation.ActiveTranslation.Privats}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.NtfPrivate)}x</color></pos></align>\n");
                                     UI.Append($"<align=left><pos=-20%><color=#575550>{Plugin.PluginTranslation.ActiveTranslation.Guards}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.FacilityGuard)}x</color></pos></align>\n");
                                     break;
                                 }
@@ -295,18 +301,20 @@ namespace BetterUI
                                 if (Plugin.Config.EnableStatsElements)
                                 {
                                     UI.Append($"<align=left><pos=-20%>{Plugin.PluginTranslation.ActiveTranslation.Team}:</pos><pos=78%>{Plugin.PluginTranslation.ActiveTranslation.Stats}:</pos></align>\n");
-                                    UI.Append($"<align=left><pos=-20%><color=#1B7805>{Plugin.PluginTranslation.ActiveTranslation.CI}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.ChaosInsurgency)}x</color></pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KillStats}:</color> <color=yellow>{Kills[players.UserId]}</color></pos></align>\n");
-                                    UI.Append($"<align=left><pos=-20%></pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.DeathStats}:</color></pos> <color=yellow>{Deaths[players.UserId]}</color></pos></align>\n");
-                                    if (Kills[players.UserId] != 0 && Deaths[players.UserId] != 0)
-                                        UI.Append($"<align=left><pos=-20%></pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KdRStats}:</color></pos> <color=yellow>{Kills[players.UserId] / Deaths[players.UserId]}</color></pos></align>\n");
+                                    UI.Append($"<align=left><pos=-20%><color=#1B7805>{Plugin.PluginTranslation.ActiveTranslation.ChaosRepressor}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.ChaosRepressor)}x</color></pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KillStats}:</color> <color=yellow>{Kills[players.UserId]}</color></pos></align>\n");
+                                    UI.Append($"<align=left><pos=-20%><color=#1B7805>{Plugin.PluginTranslation.ActiveTranslation.ChaosMarauder}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.ChaosMarauder)}x</pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.DeathStats}:</color></pos> <color=yellow>{Deaths[players.UserId]}</color></pos></align>\n");
+                                if (Kills[players.UserId] != 0 && Deaths[players.UserId] != 0)
+                                        UI.Append($"<align=left><pos=-20%><color=#1B7805>{Plugin.PluginTranslation.ActiveTranslation.ChaosRifleman}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.ChaosRifleman)}x</pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KdRStats}:</color></pos> <color=yellow>{Kills[players.UserId] / Deaths[players.UserId]}</color></pos></align>\n");
                                     else
-                                        UI.Append($"<align=left><pos=-20%></pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KdRStats}:</color></pos> <color=yellow>0</color></pos></align>\n");
+                                        UI.Append($"<align=left><pos=-20%><color=#1B7805>{Plugin.PluginTranslation.ActiveTranslation.ChaosRifleman}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.ChaosRifleman)}x</pos><pos=78%><color=red>{Plugin.PluginTranslation.ActiveTranslation.KdRStats}:</color></pos> <color=yellow>0</color></pos></align>\n");
                                 }
                                 else
                                 {
                                     UI.Append($"<align=left><pos=-20%>{Plugin.PluginTranslation.ActiveTranslation.Team}:</pos></align>\n");
-                                    UI.Append($"<align=left><pos=-20%><color=#1B7805>{Plugin.PluginTranslation.ActiveTranslation.CI}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.ChaosInsurgency)}x</color></pos></align>");
-                                }
+                                    UI.Append($"<align=left><pos=-20%><color=#1B7805>{Plugin.PluginTranslation.ActiveTranslation.ChaosRepressor}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.ChaosRepressor)}x</color></pos></align>");
+                                UI.Append($"<align=left><pos=-20%><color=#1B7805>{Plugin.PluginTranslation.ActiveTranslation.ChaosMarauder}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.ChaosMarauder)}x</color></pos></align>");
+                                UI.Append($"<align=left><pos=-20%><color=#1B7805>{Plugin.PluginTranslation.ActiveTranslation.ChaosRifleman}: </color><color=yellow>{Server.Get.Players.Count(p => p.RoleID == (int)RoleType.ChaosRifleman)}x</color></pos></align>");
+                            }
                                 break;
                             case 3:
                                 if (Plugin.Config.EnableStatsElements)
@@ -383,33 +391,41 @@ namespace BetterUI
                         int scp018 = 0;
                         foreach (var items in players.Inventory.Items)
                         {
-                            if (items.ID == (int)ItemType.GrenadeFrag)
+                            if (items.ID == (int)ItemType.GrenadeHE)
                                 frags++;
                             if (items.ID == (int)ItemType.GrenadeFlash)
                                 flashes++;
                             if (items.ID == (int)ItemType.SCP018)
                                 scp018++;
                         }
-                        uint ammo5 = players.Ammo5;
-                        uint ammo7 = players.Ammo7;
-                        uint ammo9 = players.Ammo9;
+                        uint Gauge = players.AmmoBox[Synapse.Api.Enum.AmmoType.Ammo12gauge];
+                        uint cal44 = players.AmmoBox[Synapse.Api.Enum.AmmoType.Ammo44cal];
+                        uint cal556 = players.AmmoBox[Synapse.Api.Enum.AmmoType.Ammo556x45];
+                        uint cal762 = players.AmmoBox[Synapse.Api.Enum.AmmoType.Ammo762x39];
+                        uint cal919 = players.AmmoBox[Synapse.Api.Enum.AmmoType.Ammo9x19];
                         UI.Append($"\n<align=left><pos=-20%>{Plugin.PluginTranslation.ActiveTranslation.Ammo}:</pos><pos=78%>{Plugin.PluginTranslation.ActiveTranslation.Grenades}:</align></pos>\n");
-                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>9mm: </color><color=yellow>{ammo9}</color></pos><pos=78%> <color=#FF6E01>{Plugin.PluginTranslation.ActiveTranslation.Frag}: </color><color=yellow>{frags}</color></align></pos>\n");
-                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>7.62mm: </color><color=yellow>{ammo7}</color></pos><pos=78%> <color=#FF6E01>{Plugin.PluginTranslation.ActiveTranslation.Flash}: </color><color=yellow>{flashes}</color></align></pos>\n");
-                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>5.56mm: </color><color=yellow>{ammo5}</color></pos><pos=78%> <color=#FF6E01>{Plugin.PluginTranslation.ActiveTranslation.Scp018}: </color><color=yellow>{scp018}</color></align></pos>\n");
+                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.AmmoGauge}: </color><color=yellow>{Gauge}</color></pos><pos=78%> <color=#FF6E01>{Plugin.PluginTranslation.ActiveTranslation.Frag}: </color><color=yellow>{frags}</color></align></pos>\n");
+                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.AmmoCal44}: </color><color=yellow>{cal44}</color></pos><pos=78%> <color=#FF6E01>{Plugin.PluginTranslation.ActiveTranslation.Flash}: </color><color=yellow>{flashes}</color></align></pos>\n");
+                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.Ammo556}: </color><color=yellow>{cal556}</color></pos><pos=78%> <color=#FF6E01>{Plugin.PluginTranslation.ActiveTranslation.Scp018}: </color><color=yellow>{scp018}</color></align></pos>\n");
+                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.Ammo762}: </color><color=yellow>{cal762}</color></align></pos>\n");
+                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.Ammo919}: </color><color=yellow>{cal919}</color></align></pos>\n");
                     }
                 }
                 else if (Plugin.Config.EnableTotalAmmoElement && !Plugin.Config.EnableGrenadesElement)
                 {
                     if (HasInventory(players))
                     {
-                        uint ammo5 = players.Ammo5;
-                        uint ammo7 = players.Ammo7;
-                        uint ammo9 = players.Ammo9;
+                        uint Gauge = players.AmmoBox[Synapse.Api.Enum.AmmoType.Ammo12gauge];
+                        uint cal44 = players.AmmoBox[Synapse.Api.Enum.AmmoType.Ammo44cal];
+                        uint cal556 = players.AmmoBox[Synapse.Api.Enum.AmmoType.Ammo556x45];
+                        uint cal762 = players.AmmoBox[Synapse.Api.Enum.AmmoType.Ammo762x39];
+                        uint cal919 = players.AmmoBox[Synapse.Api.Enum.AmmoType.Ammo9x19];
                         UI.Append($"\n<align=left><pos=-20%>{Plugin.PluginTranslation.ActiveTranslation.Ammo}:</align></pos>\n");
-                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>9mm: </color><color=yellow>{ammo9}</color></align></pos>\n");
-                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>7.62mm: </color><color=yellow>{ammo7}</color></align></pos>\n");
-                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>5.56mm: </color><color=yellow>{ammo5}</color></align></pos>\n");
+                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.AmmoGauge}: </color><color=yellow>{Gauge}</color></pos></align>\n");
+                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.AmmoCal44}: </color><color=yellow>{cal44}</color></pos></align>\n");
+                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.Ammo556}: </color><color=yellow>{cal556}</color></pos></align>\n");
+                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.Ammo762}: </color><color=yellow>{cal762}</color></align></pos>\n");
+                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.Ammo919}: </color><color=yellow>{cal919}</color></align></pos>\n");
                     }
                 }
                 else if (!Plugin.Config.EnableTotalAmmoElement && Plugin.Config.EnableGrenadesElement)
@@ -421,7 +437,7 @@ namespace BetterUI
                         int scp018 = 0;
                         foreach (var items in players.Inventory.Items)
                         {
-                            if (items.ID == (int)ItemType.GrenadeFrag)
+                            if (items.ID == (int)ItemType.GrenadeHE)
                                 frags++;
                             if (items.ID == (int)ItemType.GrenadeFlash)
                                 flashes++;
