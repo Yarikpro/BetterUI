@@ -26,6 +26,7 @@ _**Patching the Hints System was chancer but it was worth it. I will never ever 
 ## Supported Languages 
 * English
 * German
+* Polish (Created by `Doktor#7356`)
 
 ## How to add new Languages
 You have to either dm me on Discord, then I can explain it to you or you just create a pull request. (My Discord Account: `TheVoidNebula#5090`)
