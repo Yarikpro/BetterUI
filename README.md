@@ -22,6 +22,7 @@ _**Patching the Hints System was chancer but it was worth it. I will never ever 
 * SCP-096 Indicator
 * Kill Information
 * Round Leaderboard
+* LobbyText
 
 ## Supported Languages 
 * English
@@ -58,11 +59,15 @@ Name  | Type | Default | Description
 `EnableKillElement` | Boolean | true | Should a player be shown the role name and hp of the player he killed/he got killed from?
 `EnableStatsElements` | Boolean | true | Should a player be shown the current kills, deaths and a KD/r on the screen?
 `EnableLeaderboard` | Boolean | true | Should at the end of the round the best players be shown?
+`EnableWaitingForUsersText` | Boolean | false | Should a Text appear when the server is starting and waiting for users? Only use this if you do NOT have the WaitAndChill Plugin installed!
+`WaitingForUsersText` | String | 'nWelcome to MyServer!\n<b><color=%rainbow%>Join our Discord Server!\ndiscord.gg/yourdiscord</color></b>' | What Text should show up on a roundstart?
 
 ## Config.syml
 ```yml
 [BetterUI]
 {
+# Should this Plugin be enabled?
+isEnabled: true
 # Should the amount of alive players in your team be displayed?
 enableTeamCountElement: true
 # Should the amount of all of your ammo should be displayed?
@@ -70,7 +75,7 @@ enableTotalAmmoElement: true
 # Should the amount of your grenades be displayed?
 enableGrenadesElement: true
 # Should a Targetcounter be displayed for SCP-035/056 if you have them installed?
-enableTargetCounter: true
+enableTargetCounter: false
 # Should the time in which spectators respawn be displayed to dead players?
 enableRespawnTimerElement: true
 # Should a player be notificated if he sees SCP-096?
@@ -80,8 +85,21 @@ enableDamageElement: true
 # Should a player be shown the role name and hp of the player he killed/he got killed from?
 enableKillElement: true
 # Should a player be shown the current kills, deaths and a KD/r on the screen?
-enableStatsElements: true
+enableStatsElements: false
 # Should at the end of the round the best players be shown?
-enableLeaderboard: true
+enableLeaderboard: false
+# Should a Text appear when the server is starting and waiting for users? Only use this if you do NOT have the WaitAndChill Plugin installed!
+enableWaitingForUsersText: false
+# What Text should show up on a roundstart?
+waitingForUsersText: >2-
+
+
+
+
+  Welcome to MyServer!
+
+  <b><color=%rainbow%>Join our Discord Server!
+
+  discord.gg/yourdiscord</color></b>
 }
 ```
