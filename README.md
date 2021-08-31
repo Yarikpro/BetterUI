@@ -44,6 +44,9 @@ You have to either dm me on Discord, then I can explain it to you or you just cr
 ![Round Leaderboard](/assets/4.png)
 ![SCP-035/SCP-056 Target Indicator](/assets/5.png)
 ![SCP-096 Indicator](/assets/6.png)
+https://user-images.githubusercontent.com/75329526/131568473-fa4abd36-ffe4-458d-9997-93e60cd15861.mp4
+
+
 
 ## Config
 Name  | Type | Default | Description
