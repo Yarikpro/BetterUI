@@ -2,6 +2,7 @@
 using MEC;
 using Synapse;
 using Synapse.Api;
+using Synapse.Api.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace BetterUI
     {
 
         private List<CoroutineHandle> Coroutines = new List<CoroutineHandle>();
+        private CoroutineHandle LobbyHandle;
         private Dictionary<string, float> Kills = new Dictionary<string, float>();
         private Dictionary<string, float> Deaths = new Dictionary<string, float>();
         private Dictionary<string, float> ScpsRecontained = new Dictionary<string, float>();
@@ -61,6 +63,7 @@ namespace BetterUI
             Server.Get.Events.Round.RoundStartEvent += OnRoundStart;
             Server.Get.Events.Round.RoundEndEvent += OnRoundEnd;
             Server.Get.Events.Round.RoundRestartEvent += OnRoundRestart;
+            Server.Get.Events.Round.WaitingForPlayersEvent += OnWaitingForPlayers;
             Server.Get.Events.Scp.Scp096.Scp096AddTargetEvent += OnScp096Rage;
             Server.Get.Events.Player.PlayerDeathEvent += OnKill;
             Server.Get.Events.Player.PlayerEscapesEvent += OnEscape;
@@ -103,22 +106,33 @@ namespace BetterUI
 
         public void OnRoundStart()
         {
-            Coroutines.Add(Timing.RunCoroutine(SendUI()));
+            if (LobbyHandle.IsRunning)
+                Timing.KillCoroutines(LobbyHandle);
 
-            if (Plugin.Config.EnableRespawnTimerElement)
+            if (Plugin.Config.IsEnabled)
+                Coroutines.Add(Timing.RunCoroutine(SendUI()));
+
+            if(Plugin.Config.IsEnabled && Plugin.Config.EnableRespawnTimerElement)
                 Coroutines.Add(Timing.RunCoroutine(RespawnTimer()));
+        }
+
+        public void OnWaitingForPlayers()
+        {
+            if (Plugin.Config.IsEnabled && Plugin.Config.EnableWaitingForUsersText)
+                LobbyHandle = Timing.RunCoroutine(LobbyText());
         }
 
 
         public void OnJoin(Synapse.Api.Events.SynapseEventArguments.PlayerJoinEventArgs ev)
         {
+            if(Kills.ContainsKey(ev.Player.UserId))
             Timing.CallDelayed(1f, () => Kills.Add(ev.Player.UserId, 0)); Deaths.Add(ev.Player.UserId, 0);
         }
 
         public void OnLeave(Synapse.Api.Events.SynapseEventArguments.PlayerLeaveEventArgs ev)
         {
             if(Kills.ContainsKey(ev.Player.UserId))
-            Kills.Remove(ev.Player.UserId);
+                Kills.Remove(ev.Player.UserId);
 
             if (Deaths.ContainsKey(ev.Player.UserId))
                 Deaths.Remove(ev.Player.UserId);
@@ -138,7 +152,6 @@ namespace BetterUI
             if (Plugin.Config.EnableDamageElement)
                 ev.Killer.GiveTextHint($"{Plugin.PluginTranslation.ActiveTranslation.DealtDamage.Replace("%damage%", ev.DamageAmount.ToString())}", 1);
         }
-
 
 
         public void OnKill(Synapse.Api.Events.SynapseEventArguments.PlayerDeathEventArgs ev)
@@ -398,34 +411,24 @@ namespace BetterUI
                             if (items.ID == (int)ItemType.SCP018)
                                 scp018++;
                         }
-                        uint Gauge = players.AmmoBox[Synapse.Api.Enum.AmmoType.Ammo12gauge];
-                        uint cal44 = players.AmmoBox[Synapse.Api.Enum.AmmoType.Ammo44cal];
-                        uint cal556 = players.AmmoBox[Synapse.Api.Enum.AmmoType.Ammo556x45];
-                        uint cal762 = players.AmmoBox[Synapse.Api.Enum.AmmoType.Ammo762x39];
-                        uint cal919 = players.AmmoBox[Synapse.Api.Enum.AmmoType.Ammo9x19];
                         UI.Append($"\n<align=left><pos=-20%>{Plugin.PluginTranslation.ActiveTranslation.Ammo}:</pos><pos=78%>{Plugin.PluginTranslation.ActiveTranslation.Grenades}:</align></pos>\n");
-                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.AmmoGauge}: </color><color=yellow>{Gauge}</color></pos><pos=78%> <color=#FF6E01>{Plugin.PluginTranslation.ActiveTranslation.Frag}: </color><color=yellow>{frags}</color></align></pos>\n");
-                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.AmmoCal44}: </color><color=yellow>{cal44}</color></pos><pos=78%> <color=#FF6E01>{Plugin.PluginTranslation.ActiveTranslation.Flash}: </color><color=yellow>{flashes}</color></align></pos>\n");
-                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.Ammo556}: </color><color=yellow>{cal556}</color></pos><pos=78%> <color=#FF6E01>{Plugin.PluginTranslation.ActiveTranslation.Scp018}: </color><color=yellow>{scp018}</color></align></pos>\n");
-                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.Ammo762}: </color><color=yellow>{cal762}</color></align></pos>\n");
-                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.Ammo919}: </color><color=yellow>{cal919}</color></align></pos>\n");
+                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.AmmoGauge}: </color><color=yellow>{players.AmmoBox[AmmoType.Ammo9x19]}</color></pos><pos=78%> <color=#FF6E01>{Plugin.PluginTranslation.ActiveTranslation.Frag}: </color><color=yellow>{frags}</color></align></pos>\n");
+                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.AmmoCal44}: </color><color=yellow>{players.AmmoBox[AmmoType.Ammo44cal]}</color></pos><pos=78%> <color=#FF6E01>{Plugin.PluginTranslation.ActiveTranslation.Flash}: </color><color=yellow>{flashes}</color></align></pos>\n");
+                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.Ammo556}: </color><color=yellow>{players.AmmoBox[AmmoType.Ammo556x45]}</color></pos><pos=78%> <color=#FF6E01>{Plugin.PluginTranslation.ActiveTranslation.Scp018}: </color><color=yellow>{scp018}</color></align></pos>\n");
+                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.Ammo762}: </color><color=yellow>{players.AmmoBox[AmmoType.Ammo762x39]}</color></align></pos>\n");
+                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.Ammo919}: </color><color=yellow>{players.AmmoBox[AmmoType.Ammo9x19]}</color></align></pos>\n");
                     }
                 }
                 else if (Plugin.Config.EnableTotalAmmoElement && !Plugin.Config.EnableGrenadesElement)
                 {
                     if (HasInventory(players))
                     {
-                        uint Gauge = players.AmmoBox[Synapse.Api.Enum.AmmoType.Ammo12gauge];
-                        uint cal44 = players.AmmoBox[Synapse.Api.Enum.AmmoType.Ammo44cal];
-                        uint cal556 = players.AmmoBox[Synapse.Api.Enum.AmmoType.Ammo556x45];
-                        uint cal762 = players.AmmoBox[Synapse.Api.Enum.AmmoType.Ammo762x39];
-                        uint cal919 = players.AmmoBox[Synapse.Api.Enum.AmmoType.Ammo9x19];
                         UI.Append($"\n<align=left><pos=-20%>{Plugin.PluginTranslation.ActiveTranslation.Ammo}:</align></pos>\n");
-                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.AmmoGauge}: </color><color=yellow>{Gauge}</color></pos></align>\n");
-                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.AmmoCal44}: </color><color=yellow>{cal44}</color></pos></align>\n");
-                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.Ammo556}: </color><color=yellow>{cal556}</color></pos></align>\n");
-                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.Ammo762}: </color><color=yellow>{cal762}</color></align></pos>\n");
-                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.Ammo919}: </color><color=yellow>{cal919}</color></align></pos>\n");
+                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.AmmoGauge}: </color><color=yellow>{players.AmmoBox[AmmoType.Ammo12gauge]}</color></pos></align>\n");
+                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.AmmoCal44}: </color><color=yellow>{players.AmmoBox[AmmoType.Ammo44cal]}</color></pos></align>\n");
+                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.Ammo556}: </color><color=yellow>{players.AmmoBox[AmmoType.Ammo556x45]}</color></pos></align>\n");
+                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.Ammo762}: </color><color=yellow>{players.AmmoBox[AmmoType.Ammo762x39]}</color></align></pos>\n");
+                        UI.Append($"<align=left><pos=-20%><color=#00FFD2>{Plugin.PluginTranslation.ActiveTranslation.Ammo919}: </color><color=yellow>{players.AmmoBox[AmmoType.Ammo9x19]}</color></align></pos>\n");
                     }
                 }
                 else if (!Plugin.Config.EnableTotalAmmoElement && Plugin.Config.EnableGrenadesElement)
@@ -522,8 +525,40 @@ namespace BetterUI
             }
         }
 
-        public IEnumerator<float> RespawnTimer()
+        public IEnumerator<float> LobbyText()
         {
+            int r = 255, g = 0, b = 0;
+            while (true)
+            {
+                var hexColor = $"#{r:X2}{g:X2}{b:X2}";
+
+                if (r > 0 && b == 0)
+                {
+                    r -= 3;
+                    g += 3;
+                }
+
+                if (g > 0 && r == 0)
+                {
+                    g -= 3;
+                    b += 3;
+                }
+
+                if (b > 0 && g == 0)
+                {
+                    b -= 3;
+                    r += 3;
+                }
+                foreach (Player players in Server.Get.Players)
+                    GiveTextHint(players, Plugin.Config.WaitingForUsersText.Replace("%rainbow%", hexColor), 1f);
+
+                yield return Timing.WaitForSeconds(0.5f);
+            }
+  
+        }
+
+            public IEnumerator<float> RespawnTimer()
+            {
             while (!Round.Get.RoundEnded)
             {
                 float time = Round.Get.NextRespawn;
@@ -577,7 +612,7 @@ namespace BetterUI
             {
                 foreach (Player players in Server.Get.Players)
                 {
-                    if (VoidAPI.NextTextHint[players] == null|| VoidAPI.NextTextHint[players].Duration == 0)
+                    if (VoidAPI.NextTextHint[players] == null || VoidAPI.NextTextHint[players].Duration == 0)
                     {
                         StringBuilder UIElements = new StringBuilder();
                         BuildUI(UIElements, players);

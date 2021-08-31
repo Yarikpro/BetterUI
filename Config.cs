@@ -10,6 +10,10 @@ namespace BetterUI
 {
     public class Config : AbstractConfigSection
     {
+
+        [Description("Should this Plugin be enabled?")]
+        public bool IsEnabled { get; set; } = true;
+
         [Description("Should the amount of alive players in your team be displayed?")]
         public bool EnableTeamCountElement { get; set; } = true;
 
@@ -39,6 +43,12 @@ namespace BetterUI
 
         [Description("Should at the end of the round the best players be shown?")]
         public bool EnableLeaderboard { get; set; } = true;
+
+        [Description("Should a Text appear when the server is starting and waiting for users? Only use this if you do NOT have the WaitAndChill Plugin installed!")]
+        public bool EnableWaitingForUsersText { get; set; } = false;
+
+        [Description("What Text should show up on a roundstart?")]
+        public string WaitingForUsersText { get; set; } = "\n\n\n\nWelcome to MyServer!\n<b><color=%rainbow%>Join our Discord Server!\ndiscord.gg/yourdiscord</color></b>";
 
     }
 }

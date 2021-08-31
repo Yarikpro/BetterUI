@@ -18,7 +18,7 @@ namespace BetterUI
         SynapseMajor = 2,
         SynapseMinor = 7,
         SynapsePatch = 0,
-        Version = "2.0.1"
+        Version = "2.1.0"
         )]
     public class Plugin : AbstractPlugin
     {
@@ -30,9 +30,9 @@ namespace BetterUI
 
         public override void Load()
         {
-            PatchMethods();
             PluginTranslation.AddTranslation(new PluginTranslation());
 
+            //German Translation by TheVoidNebula#5090
             PluginTranslation.AddTranslation(new PluginTranslation
             {
                 Respawn = "Du wirst respawnen in:",
@@ -178,6 +178,7 @@ namespace BetterUI
             }, "POLISH");
             //Feel free to ask me or create a PR in order to add more languages
             new EventHandlers();
+            PatchMethods();
         }
         private void PatchMethods()
         {

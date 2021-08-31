@@ -11,7 +11,9 @@ namespace BetterUI
 {
     [HarmonyPatch(typeof(Player), nameof(Player.GiveTextHint))]
     internal static class SynapsePatches
+
     {
+        [HarmonyPatch(typeof(Player), nameof(Player.GiveTextHint))]
         [HarmonyPrefix]
         private static bool GiveTextHintPatch(Player __instance, string message, float duration = 5f)
         {
