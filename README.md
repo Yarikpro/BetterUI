@@ -10,7 +10,7 @@ The Respawn Timer is heavily inspired by the one being used on LunarGaming, big 
 ## What is this plugin?
 _**BetterUI**_ patched the normal Hint system in order to not just use hints to show different information to the player but also to show normal hints sent by other plugins like it should be. _**BetterUI**_ has three big parts into it. **I.** The Respawn Timer. **II.** The UI Elements while being Alive. **III.** The RoundEnd Leaderboard. You can fully decide what UI Elements you want enabled and what not.
 
-_**Patching the Hints System was chancer but it was worth it. I will never ever work with Hints again**_
+_**Patching the Hints System was cancer but it was worth it. I will never ever work with Hints again**_
 
 ## Features
 * Respawn Timer/Ticket Counter/Round Time
