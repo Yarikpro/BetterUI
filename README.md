@@ -60,7 +60,7 @@ Name  | Type | Default | Description
 `EnableStatsElements` | Boolean | true | Should a player be shown the current kills, deaths and a KD/r on the screen?
 `EnableLeaderboard` | Boolean | true | Should at the end of the round the best players be shown?
 `EnableWaitingForUsersText` | Boolean | false | Should a Text appear when the server is starting and waiting for users? Only use this if you do NOT have the WaitAndChill Plugin installed!
-`WaitingForUsersText` | String | 'nWelcome to MyServer!\n<b><color=%rainbow%>Join our Discord Server!\ndiscord.gg/yourdiscord</color></b>' | What Text should show up on a roundstart?
+`WaitingForUsersText` | String | '\n\n\n\nWelcome to MyServer!\n<b><color=%rainbow%>Join our Discord Server!\ndiscord.gg/yourdiscord</color></b>' | What Text should show up on a roundstart?
 
 ## Config.syml
 ```yml
